@@ -18,10 +18,11 @@ class CORS {
 
         // ALLOW OPTIONS METHOD
         $headers = [
-            // 'Access-Control-Allow-Origin'=> '*',
-            // 'Access-Control-Allow-Credentials'=> 'true',
-            'Access-Control-Allow-Methods'=> 'POST, GET, OPTIONS, PUT, DELETE',
-            'Access-Control-Allow-Headers'=> 'Content-Type, X-Auth-Token, Origin, token, Accept, Accept-Encoding, Connection, accept, origin, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Cache-Control, X-Requested-With, Content-Length, Authorization, XMLHttpRequest'
+            'Access-Control-Allow-Origin'=> '*',
+            'Access-Control-Allow-Methods'=> '*',
+            'Access-Control-Allow-Credentials'=> 'true',            
+            'Access-Control-Allow-Headers'=> 'Content-Type, X-Auth-Token, Origin, token, Accept, Accept-Encoding, Connection, accept, origin, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Cache-Control, X-Requested-With, Content-Length, Authorization, XMLHttpRequest',
+            'Accept'=> 'application/json',
         ];
         if($request->getMethod() == "OPTIONS") {
             // The client-side application can set only headers allowed in Access-Control-Allow-Headers
