@@ -219,6 +219,26 @@ class CartController extends Controller
 
     }
 
+    public function countCart($userId, Request $request)
+    {                               
+        $carts = Cart::where('user_id', $userId)->where('status', 1)->get();
+        $cartsCount = $carts->count();
+                
+        if ($carts) {
+            return response([
+                'success'   => true,
+                'message'   => 'Count Cart',
+                'data'      => $cartsCount
+            ], 200);
+        }else{
+            return response([
+                'success'   => true,
+                'message'   => 'Data Not Found!',
+                'data'      => 0
+            ], 200);
+        }
+    }
+
     public static function serializeCart($carts, $type)
     {
         // error_log($carts);

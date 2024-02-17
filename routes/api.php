@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', array('middleware' => 'cors', 'uses' => 'AuthController@register'));
 Route::post('/login', array('middleware' => 'cors', 'uses' => 'AuthController@login'));
 Route::post('/logout', array('middleware' => 'cors', 'uses' => 'AuthController@logout'));
+Route::post('/update/{id?}', array('middleware' => 'cors', 'uses' => 'AuthController@update'));
 
 Route::get('/categoryproduct', array('middleware' => 'cors', 'uses' => 'CategoryProductController@index'));
 Route::post('/categoryproduct', array('middleware' => 'cors', 'uses' => 'CategoryProductController@store'));
@@ -40,6 +41,7 @@ Route::get('/cart/{userId?}', array('middleware' => 'cors', 'uses' => 'CartContr
 Route::post('/cart', array('middleware' => 'cors', 'uses' => 'CartController@store'));
 Route::post('/cart/update/{id?}', array('middleware' => 'cors', 'uses' => 'CartController@update'));
 Route::delete('/cart/{id?}', array('middleware' => 'cors', 'uses' => 'CartController@destroy'));
+Route::get('/cart/count/{userId?}', array('middleware' => 'cors', 'uses' => 'CartController@countCart'));
 
 Route::get('/transaction/{userId?}', array('middleware' => 'cors', 'uses' => 'TransactionController@index'));
 Route::post('/transaction', array('middleware' => 'cors', 'uses' => 'TransactionController@store'));

@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
+use App\Helpers\AppHelper;
 
 class AuthController extends Controller
 {
@@ -65,7 +66,7 @@ class AuthController extends Controller
             'name'              => $name, 
             'email'             => $email, 
             'password'          => Crypt::encryptString($password),
-            'date_of_birth'     => $email, 
+            'date_of_birth'     => $dateOfBirth, 
             'phone'             => $phone, 
             'remember_token'    => Crypt::encryptString($timenow),
             'expired_token'     => Crypt::encryptString($expiredToken),            
@@ -175,5 +176,60 @@ class AuthController extends Controller
                 'message'   => 'Logout Failed!'
             ], 400);
         }         
+    }
+
+    public function update($id, Request $request)
+    {
+        $token = $request->header('token');        
+        $checkToken = AppHelper::checkToken($token);
+        if ($checkToken == 'true'){
+            return response()->json(['success' => false,'message' => 'Token Expired!',], 400);
+        }
+
+        //validate data
+        $validator = Validator::make($request->all(), [            
+            'name'      => 'required',
+            'date_of_birth'      => 'required',
+            'phone'      => 'required',
+        ],
+            [
+                'name'     => 'Name Is Required!',          
+                'date_of_birth'     => 'Date Of Birth Is Required!',
+                'phone'     => 'Phone Is Required!',          
+            ]
+        );
+
+        if($validator->fails()) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Please Fill The Required Fields!',
+                'data'    => $validator->errors()
+            ],400);
+
+        } else {                           
+
+            $user = User::whereId($id)->first();                              
+           
+            $user = $user->update([                
+                'name'      => $request->input('name'),
+                'date_of_birth'      => $request->input('date_of_birth'),
+                'phone'      => $request->input('phone'),
+            ]);                    
+
+            if ($user) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Success Update Data!',
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed Update Data!',
+                ], 500);
+            }
+
+        }
+
     }
 }
