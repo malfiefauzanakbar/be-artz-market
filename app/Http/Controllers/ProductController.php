@@ -241,34 +241,35 @@ class ProductController extends Controller
             ]);                    
 
             if ($uproduct) {
-                $imageProducts = ProductImage::where('product_id', $id)->get();                
-                foreach ($imageProducts as $imageProduct) {                    
-                    Storage::disk('local')->delete('/public/product/'.$imageProduct->image);
-                }                
-                $delImage = ProductImage::where('product_id', $id)->delete();
-                
                 //upload image                        
-                $images = $request->file('images');  
-                  
-                foreach ($images as $image) {
-                    $timenow = Carbon::now();                    
-                    $convtime = Carbon::createFromFormat('Y-m-d H:i:s', $timenow)->format('YmdHis');
-                    $extension = $image->extension();          
-                    $image_name = $convtime.Str::random(5).".".$extension;                    
-                    $image->storeAs('public/product/', $image_name);
-
-                    $cimage = ProductImage::create([
-                        'image'     => $image_name,
-                        'product_id'     => $id
-                    ]);
-
-                    if (!$cimage) {                    
-                        return response()->json([
-                            'success' => false,
-                            'message' => 'Failed Create Data Image!',
-                        ], 400);
-                    } 
-                }                
+                $images = $request->file('images');
+                if ($images){
+                    $imageProducts = ProductImage::where('product_id', $id)->get();                
+                    foreach ($imageProducts as $imageProduct) {                    
+                        Storage::disk('local')->delete('/public/product/'.$imageProduct->image);
+                    }                
+                    $delImage = ProductImage::where('product_id', $id)->delete();                                          
+                
+                    foreach ($images as $image) {
+                        $timenow = Carbon::now();                    
+                        $convtime = Carbon::createFromFormat('Y-m-d H:i:s', $timenow)->format('YmdHis');
+                        $extension = $image->extension();          
+                        $image_name = $convtime.Str::random(5).".".$extension;                    
+                        $image->storeAs('public/product/', $image_name);
+    
+                        $cimage = ProductImage::create([
+                            'image'     => $image_name,
+                            'product_id'     => $id
+                        ]);
+    
+                        if (!$cimage) {                    
+                            return response()->json([
+                                'success' => false,
+                                'message' => 'Failed Create Data Image!',
+                            ], 400);
+                        } 
+                    }
+                }                                                
 
                 return response()->json([
                     'success' => true,
