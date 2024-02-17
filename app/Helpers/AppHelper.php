@@ -20,7 +20,7 @@ class AppHelper
         if ($date1 > $date2){
             return 'true';
         }else{                              
-            $updateExpiredToken = date('Y-m-d H:i:s', strtotime('+30 minutes', strtotime($timenow)));
+            $updateExpiredToken = date('Y-m-d H:i:s', strtotime('+90 minutes', strtotime($timenow)));
             $user->expired_token   = Crypt::encryptString($updateExpiredToken);            
             $user->save();        
             return 'false';

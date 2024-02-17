@@ -54,7 +54,7 @@ class AuthController extends Controller
         $dateOfBirth   = $request->date_of_birth;
         $phone   = $request->phone;
         $timenow      = Carbon::now();               
-        $expiredToken = date('Y-m-d H:i:s', strtotime('+30 minutes', strtotime($timenow)));   
+        $expiredToken = date('Y-m-d H:i:s', strtotime('+90 minutes', strtotime($timenow)));   
         $role      = $request->input('role_id');
         if ($password != $cpassword) {            
             return response()->json([
@@ -124,7 +124,7 @@ class AuthController extends Controller
             
             $timenow                  = Carbon::now();            
             $rememberToken          = $timenow;
-            $expiredToken          = date('Y-m-d H:i:s', strtotime('+30 minutes', strtotime($timenow)));
+            $expiredToken          = date('Y-m-d H:i:s', strtotime('+90 minutes', strtotime($timenow)));
             $user->remember_token   = Crypt::encryptString($rememberToken);
             $user->expired_token   = Crypt::encryptString($expiredToken);            
             $user->save();        
