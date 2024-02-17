@@ -222,7 +222,7 @@ class ProductController extends Controller
 
         } else {        
             
-            $checkName = Product::where(DB::raw("LOWER(name)"), strtolower($request->input('name')))->first();
+            $checkName = Product::where(DB::raw("LOWER(name)"), strtolower($request->input('name')))->where('id', '!=', $id)->first();
 
             if ($checkName) {
                 return response()->json([
