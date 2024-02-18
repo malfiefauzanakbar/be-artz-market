@@ -167,8 +167,18 @@ class TransactionController extends Controller
         $data = array();
         foreach ($transactions as $transaction){                        
             
+            $code = 'TRX';
+            if(strlen($transaction->id) == 1){
+                $code = $code.'000';
+            }elseif(strlen($transaction->id) == 2){
+                $code = $code.'00';
+            }elseif(strlen($transaction->id) == 3){
+                $code = $code.'0';
+            }
+
             $item =  array (
               'id'      => $transaction->id,
+              'code' => $code.$transaction->id,
               'name'      => $transaction->name,
               'total'      => $transaction->total,              
               'tax'      => $transaction->tax,
@@ -204,7 +214,7 @@ class TransactionController extends Controller
                 );
 
                 $data_image[] = $item_image;
-            }
+            }            
 
             $item =  array (
               'id'      => $transaction->id,
