@@ -232,4 +232,47 @@ class AuthController extends Controller
         }
 
     }
+
+    public function show($id, Request $request)
+    {        
+        
+        $user = User::where('id', $id)
+        ->get();
+        $seruser = $this->serializeUser($user, 'object');
+        if ($seruser) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail user!',
+                'data'    => $seruser
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Not Found!',
+                'data'    => (object)array()
+            ], 200);
+        }
+    }
+
+    public static function serializeUser($users, $type)
+    {
+        // error_log($users);
+        $data = array();        
+        foreach ($users as $user){                                     
+            $item =  array (
+              'id'      => $user->id,
+              'name'      => $user->name,
+              'email'      => $user->email,
+              'date_of_birth'      => $user->date_of_birth,
+              'phone'      => $user->phone
+            );                        
+            
+            if ($type == 'array'){                
+                $data[] = $item;                
+            }else{
+                $data = $item;
+            }
+        }        
+        return $data;
+    }
 }

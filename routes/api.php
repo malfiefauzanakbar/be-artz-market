@@ -18,6 +18,7 @@ Route::post('/register', array('middleware' => 'cors', 'uses' => 'AuthController
 Route::post('/login', array('middleware' => 'cors', 'uses' => 'AuthController@login'));
 Route::post('/logout', array('middleware' => 'cors', 'uses' => 'AuthController@logout'));
 Route::post('/update/{id?}', array('middleware' => 'cors', 'uses' => 'AuthController@update'));
+Route::get('/detail/{id?}', array('middleware' => 'cors', 'uses' => 'AuthController@show'));
 
 Route::get('/categoryproduct', array('middleware' => 'cors', 'uses' => 'CategoryProductController@index'));
 Route::post('/categoryproduct', array('middleware' => 'cors', 'uses' => 'CategoryProductController@store'));
