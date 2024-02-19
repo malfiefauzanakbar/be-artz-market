@@ -39,7 +39,7 @@ class CategoryProductController extends Controller
         $token = $request->header('token');                
         $checkToken = AppHelper::checkToken($token);
         if ($checkToken == 'true'){
-            return response()->json(['success' => false,'message' => 'Token Expired!',], 400);
+            return response()->json(['success' => false,'message' => 'Token Expired!', 'is_token_expired' => true], 400);
         }
         
         //validate data
@@ -112,7 +112,7 @@ class CategoryProductController extends Controller
         $token = $request->header('token');        
         $checkToken = AppHelper::checkToken($token);
         if ($checkToken == 'true'){
-            return response()->json(['success' => false,'message' => 'Token Expired!',], 400);
+            return response()->json(['success' => false,'message' => 'Token Expired!', 'is_token_expired' => true], 400);
         }
 
         //validate data
@@ -171,7 +171,7 @@ class CategoryProductController extends Controller
         $token = $request->header('token');        
         $checkToken = AppHelper::checkToken($token);
         if ($checkToken == 'true'){
-            return response()->json(['success' => false,'message' => 'Token Expired!',], 400);
+            return response()->json(['success' => false,'message' => 'Token Expired!', 'is_token_expired' => true], 400);
         }
 
         $categoryproduct = CategoryProduct::findOrFail($id);
