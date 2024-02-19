@@ -78,6 +78,13 @@ class CartController extends Controller
             
             $checkCart = Cart::where('product_id', $request->input('product_id'))->where('user_id', $request->input('user_id'))->where('status', 1)->first();
             if ($checkCart){
+                if(($checkCart->qty + 1) > $checkProduct->stock){
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Stock Yang Tersedia Hanya Ada '.$checkProduct->stock.'!',
+                    ], 400);
+                }
+
                 $cart = $checkCart->update([                
                     'qty'      => ($checkCart->qty + 1),
                 ]);
