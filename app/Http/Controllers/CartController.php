@@ -174,7 +174,7 @@ class CartController extends Controller
                     'success' => false,
                     'message' => 'Stock Habis!',
                 ], 400);
-            }elseif($checkProduct->stock < $request->input('qty')){
+            }elseif($checkProduct->stock < ($request->input('qty')+$cart->qty)){
                 return response()->json([
                     'success' => false,
                     'message' => 'Stock Yang Tersedia Hanya Ada '.$checkProduct->stock.'!',
