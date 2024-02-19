@@ -73,7 +73,7 @@ class CartController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Stock Habis!',
-                ], 200);
+                ], 400);
             }
             
             $checkCart = Cart::where('product_id', $request->input('product_id'))->where('user_id', $request->input('user_id'))->where('status', 1)->first();
@@ -166,12 +166,12 @@ class CartController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Stock Habis!',
-                ], 200);
+                ], 400);
             }elseif($checkProduct->stock < $request->input('qty')){
                 return response()->json([
                     'success' => true,
                     'message' => 'Stock Yang Tersedia Hanya Ada '.$checkProduct->stock.'!',
-                ], 200);
+                ], 400);
             }
            
             $cart = $cart->update([                

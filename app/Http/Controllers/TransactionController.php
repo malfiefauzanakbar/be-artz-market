@@ -86,12 +86,12 @@ class TransactionController extends Controller
                     return response()->json([
                         'success' => true,
                         'message' => 'Stock Habis!',
-                    ], 200);
+                    ], 400);
                 }elseif($checkProduct->stock < $product['qty']){
                     return response()->json([
                         'success' => true,
                         'message' => 'Stock Yang Tersedia Hanya Ada '.$checkProduct->stock.'!',
-                    ], 200);
+                    ], 400);
                 }
             }            
 
