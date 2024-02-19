@@ -84,12 +84,12 @@ class TransactionController extends Controller
                 $checkProduct = Product::where('id', $product['id'])->first();
                 if($checkProduct->stock == 0){
                     return response()->json([
-                        'success' => true,
+                        'success' => false,
                         'message' => 'Stock Habis!',
                     ], 400);
                 }elseif($checkProduct->stock < $product['qty']){
                     return response()->json([
-                        'success' => true,
+                        'success' => false,
                         'message' => 'Stock Yang Tersedia Hanya Ada '.$checkProduct->stock.'!',
                     ], 400);
                 }

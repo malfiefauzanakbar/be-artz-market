@@ -71,7 +71,7 @@ class CartController extends Controller
             $checkProduct = Product::where('id', $request->input('product_id'))->first();
             if($checkProduct->stock == 0){
                 return response()->json([
-                    'success' => true,
+                    'success' => false,
                     'message' => 'Stock Habis!',
                 ], 400);
             }
@@ -164,12 +164,12 @@ class CartController extends Controller
             $checkProduct = Product::where('id', $cart->product_id)->first();
             if($checkProduct->stock == 0){
                 return response()->json([
-                    'success' => true,
+                    'success' => false,
                     'message' => 'Stock Habis!',
                 ], 400);
             }elseif($checkProduct->stock < $request->input('qty')){
                 return response()->json([
-                    'success' => true,
+                    'success' => false,
                     'message' => 'Stock Yang Tersedia Hanya Ada '.$checkProduct->stock.'!',
                 ], 400);
             }
