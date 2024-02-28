@@ -14,6 +14,7 @@ use App\Cart;
 use App\Product;
 use Carbon\Carbon;
 use Config;
+use Illuminate\Support\Str;
 
 class TransactionController extends Controller
 {
@@ -60,6 +61,9 @@ class TransactionController extends Controller
             'tax'      => 'required',
             'service'      => 'required',
             'total'      => 'required',
+            'bank'      => 'required',
+            'no_rek'      => 'required',
+            'payment_proof'      => 'required',
         ],
             [                
                 'user_id'     => 'User ID Is Required!',
@@ -67,6 +71,9 @@ class TransactionController extends Controller
                 'tax'      => 'Tax Is Required!',
                 'service'      => 'Service Is Required!',
                 'total'      => 'Total Is Required!',
+                'bank'      => 'Bank Is Required!',
+                'no_rek'      => 'No Rek Is Required!',
+                'payment_proof'      => 'Payment Proof Is Required!',
             ]
         );
 
@@ -95,6 +102,15 @@ class TransactionController extends Controller
                 }
             }            
 
+            //upload image                        
+            $image = $request->file('payment_proof');
+                            
+            $timenow = Carbon::now();                    
+            $convtime = Carbon::createFromFormat('Y-m-d H:i:s', $timenow)->format('YmdHis');
+            $extension = $image->extension();          
+            $image_name = $convtime.Str::random(5).".".$extension;                    
+            $image->storeAs('public/transaction/', $image_name);               
+
             $transaction = Transaction::create([                                                                
                 'user_id'           => $request->input('user_id'),
                 'sub_total'         => $request->input('sub_total'),
@@ -102,6 +118,9 @@ class TransactionController extends Controller
                 'service'           => $request->input('service'),
                 'total'             => $request->input('total'),
                 'status'            => 1,
+                'bank'              => $request->input('bank'),
+                'no_rek'            => $request->input('no_rek'),
+                'payment_proof'     => $image_name,
             ]);
 
             if ($transaction) {
@@ -184,6 +203,10 @@ class TransactionController extends Controller
               'tax'      => $transaction->tax,
               'service'      => $transaction->service,              
               'sub_total'      => $transaction->sub_total,
+              'bank'      => $transaction->bank,
+              'no_rek'      => $transaction->no_rek,
+              'payment_proof'      => config('environment.app_url')
+              .config('environment.dir_transaction').$transaction->payment_proof,
               'created_at'      => $transaction->created_at,
             );                        
 
