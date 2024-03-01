@@ -64,6 +64,7 @@ class TransactionController extends Controller
             'bank'      => 'required',
             'no_rek'      => 'required',
             'payment_proof'      => 'required',
+            'courier'      => 'required',
         ],
             [                
                 'user_id'     => 'User ID Is Required!',
@@ -74,6 +75,7 @@ class TransactionController extends Controller
                 'bank'      => 'Bank Is Required!',
                 'no_rek'      => 'No Rek Is Required!',
                 'payment_proof'      => 'Payment Proof Is Required!',
+                'courier'      => 'Courier Proof Is Required!',
             ]
         );
 
@@ -121,6 +123,7 @@ class TransactionController extends Controller
                 'bank'              => $request->input('bank'),
                 'no_rek'            => $request->input('no_rek'),
                 'payment_proof'     => $image_name,
+                'courier'            => $request->input('courier'),
             ]);
 
             if ($transaction) {
@@ -207,6 +210,7 @@ class TransactionController extends Controller
               'no_rek'      => $transaction->no_rek,
               'payment_proof'      => config('environment.app_url')
               .config('environment.dir_transaction').$transaction->payment_proof,
+              'courier'      => $transaction->courier,
               'created_at'      => $transaction->created_at,
             );                        
 
